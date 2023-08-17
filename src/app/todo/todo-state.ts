@@ -8,6 +8,8 @@ import {
   EditItemAction,
   EditOnAction,
 } from './todo-actions';
+import { TodoService } from '../services';
+import { tap } from 'rxjs/operators';
 
 export interface TodoStateModel {
   items: TodoModel[];
@@ -21,26 +23,31 @@ export interface TodoStateModel {
 })
 @Injectable()
 export class TodoState {
+  constructor(private todoService: TodoService) {}
   @Action(AddItemAction)
   addItem(ctx: StateContext<TodoStateModel>, action: AddItemAction) {
-    const { name } = action;
+    return this.todoService.addTodo(action.name).pipe(
+      tap((result) => {
+        const { name } = action;
 
-    if (!name) {
-      return;
-    }
-    const state = ctx.getState();
+        if (!name) {
+          return;
+        }
+        const state = ctx.getState();
 
-    const todoItem: TodoModel = {
-      id: Math.floor(Math.random() * 1000),
-      isDone: false,
-      editOn: false,
-      title: name,
-    };
-    ctx.setState({
-      ...state,
-      items: [...state.items, todoItem],
-    });
-    console.log(ctx.getState());
+        const todoItem: TodoModel = {
+          id: Math.floor(Math.random() * 1000),
+          isDone: false,
+          editOn: false,
+          title: name,
+        };
+        ctx.setState({
+          ...state,
+          items: [...state.items, todoItem],
+        });
+        console.log(ctx.getState());
+      })
+    );
   }
 
   @Action(ToggleItemAction)
@@ -90,9 +97,11 @@ export class TodoState {
   }
 
   @Action(EditItemAction)
-  editItem(ctx: StateContext<TodoStateModel>, action: EditItemAction) {
-    const { id, name } = action;
-
+  editItem(ctx: StateContext<TodoStateModel>, payload: EditItemAction) {
+    const { id, name } = payload;
+    // call bellow not working because of jsonPlaceholder
+    // return this.todoService.updateTodo(id, name).pipe(
+    //   tap((result) => {
     if (!name) {
       return;
     }
@@ -109,5 +118,7 @@ export class TodoState {
     ctx.setState({
       items: [...newTodoItems],
     });
+    //   })
+    // );
   }
 }

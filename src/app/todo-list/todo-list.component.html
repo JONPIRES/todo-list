@@ -1,7 +1,7 @@
 <h1>Todo List</h1>
 <div>
-  <input type="text" [(ngModel)]="newItemName" />
-  <button (click)="addItem()">Add</button>
+  <input type="text" [(ngModel)]="newItemName" (keyup.enter)="addItem()" />
+  <button (click)="addItem()"><i class="fa-solid fa-plus"></i></button>
 </div>
 
 <ul class="list">
@@ -23,9 +23,15 @@
         [(ngModel)]="editName"
         placeholder="{{ item.title }}"
       />
-      <button (click)="toggleEdit(item)" *ngIf="!item.editOn">edit</button>
-      <button *ngIf="!item.editOn" (click)="deleteItem(item)">Remove</button>
-      <button (click)="editItem(item)" *ngIf="item.editOn">confirm</button>
+      <button (click)="toggleEdit(item)" *ngIf="!item.editOn">
+        <i class="fa-regular fa-pen-to-square"></i>
+      </button>
+      <button *ngIf="!item.editOn" (click)="deleteItem(item)">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+      <button (click)="editItem(item)" *ngIf="item.editOn">
+        <i class="fa-solid fa-square-check"></i>
+      </button>
     </div>
   </li>
 </ul>

@@ -17,7 +17,8 @@ import { TodoSelectors } from '../todo/todo-selectors';
   styleUrls: ['./todo-list.component.css'],
 })
 export class TodoListComponent {
-  @Select(TodoSelectors.todoItems) todoItems$!: Observable<TodoModel[]>;
+  @Select(TodoSelectors.todoItems)
+  todoItems$!: Observable<TodoModel[]>;
 
   newItemName!: string;
   editName!: string;
