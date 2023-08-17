@@ -90,5 +90,24 @@ export class TodoState {
   }
 
   @Action(EditItemAction)
-  editItem(ctx: StateContext<TodoStateModel>, action: EditItemAction) {}
+  editItem(ctx: StateContext<TodoStateModel>, action: EditItemAction) {
+    const { id, name } = action;
+
+    if (!name) {
+      return;
+    }
+    const state = ctx.getState();
+    const newTodoItems = state.items.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          title: name,
+        };
+      }
+      return item;
+    });
+    ctx.setState({
+      items: [...newTodoItems],
+    });
+  }
 }

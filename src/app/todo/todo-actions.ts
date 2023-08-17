@@ -12,12 +12,11 @@ export class EditOnAction {
   constructor(public id: number) {}
 }
 
-// in construction
 export class DeleteItemAction {
   static readonly type = '[TODO page] Delete item';
   constructor(public id: number) {}
 }
 export class EditItemAction {
   static readonly type = '[TODO page] Edit item';
-  constructor(public id: number) {}
+  constructor(public id: number, public name: string) {}
 }

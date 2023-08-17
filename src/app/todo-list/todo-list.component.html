@@ -4,8 +4,6 @@
   <button (click)="addItem()">Add</button>
 </div>
 
-<!-- Items -->
-
 <ul class="list">
   <li
     *ngFor="let item of todoItems$ | async; trackBy: trackById"
@@ -19,10 +17,15 @@
         (change)="toggleItem(item)"
       />
       <span *ngIf="!item.editOn">{{ item.title }}</span>
-      <input type="text" *ngIf="item.editOn" value="{{ item.title }}" />
+      <input
+        type="text"
+        *ngIf="item.editOn"
+        [(ngModel)]="editName"
+        placeholder="{{ item.title }}"
+      />
+      <button (click)="toggleEdit(item)" *ngIf="!item.editOn">edit</button>
       <button *ngIf="!item.editOn" (click)="deleteItem(item)">Remove</button>
-      <button (click)="toggleEdit(item)">edit</button>
-      <!-- Replace 'title' with the actual property you want to display -->
+      <button (click)="editItem(item)" *ngIf="item.editOn">confirm</button>
     </div>
   </li>
 </ul>
