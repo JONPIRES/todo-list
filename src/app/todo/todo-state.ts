@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 export interface TodoStateModel {
   items: TodoModel[];
 }
+let lastId: number = 1;
 
 @State<TodoStateModel>({
   name: 'todo',
@@ -36,7 +37,7 @@ export class TodoState {
         const state = ctx.getState();
 
         const todoItem: TodoModel = {
-          id: Math.floor(Math.random() * 1000),
+          id: lastId,
           isDone: false,
           editOn: false,
           title: name,
@@ -45,6 +46,7 @@ export class TodoState {
           ...state,
           items: [...state.items, todoItem],
         });
+        lastId += 1;
         console.log(ctx.getState());
       })
     );
