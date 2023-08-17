@@ -89,38 +89,43 @@ export class TodoState {
 
   @Action(DeleteItemAction)
   deleteItem(ctx: StateContext<TodoStateModel>, action: DeleteItemAction) {
-    const state = ctx.getState();
+    return this.todoService.deleteTodo(action.id).pipe(
+      tap(() => {
+        const state = ctx.getState();
 
-    const newTodoItems = state.items.filter((item) => item.id !== action.id);
+        const newTodoItems = state.items.filter(
+          (item) => item.id !== action.id
+        );
 
-    ctx.setState({
-      items: [...newTodoItems],
-    });
+        ctx.setState({
+          items: [...newTodoItems],
+        });
+      })
+    );
   }
 
   @Action(EditItemAction)
   editItem(ctx: StateContext<TodoStateModel>, payload: EditItemAction) {
     const { id, name } = payload;
-    // call bellow not working because of jsonPlaceholder
-    // return this.todoService.updateTodo(id, name).pipe(
-    //   tap((result) => {
-    if (!name) {
-      return;
-    }
-    const state = ctx.getState();
-    const newTodoItems = state.items.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          title: name,
-        };
-      }
-      return item;
-    });
-    ctx.setState({
-      items: [...newTodoItems],
-    });
-    //   })
-    // );
+    return this.todoService.updateTodo(id, name).pipe(
+      tap((result) => {
+        if (!name) {
+          return;
+        }
+        const state = ctx.getState();
+        const newTodoItems = state.items.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              title: name,
+            };
+          }
+          return item;
+        });
+        ctx.setState({
+          items: [...newTodoItems],
+        });
+      })
+    );
   }
 }
