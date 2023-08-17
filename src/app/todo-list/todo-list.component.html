@@ -13,12 +13,15 @@
   >
     <div class="flex items-center">
       <input
+        *ngIf="!item.editOn"
         type="checkbox"
         [checked]="item.isDone"
         (change)="toggleItem(item)"
       />
-      <span>{{ item.title }}</span>
-      <button (click)="deleteItem(item)">Remove</button>
+      <span *ngIf="!item.editOn">{{ item.title }}</span>
+      <input type="text" *ngIf="item.editOn" value="{{ item.title }}" />
+      <button *ngIf="!item.editOn" (click)="deleteItem(item)">Remove</button>
+      <button (click)="toggleEdit(item)">edit</button>
       <!-- Replace 'title' with the actual property you want to display -->
     </div>
   </li>

@@ -7,6 +7,11 @@ export class ToggleItemAction {
   constructor(public id: number) {}
 }
 
+export class EditOnAction {
+  static readonly type = '[TODO page] EditOn item';
+  constructor(public id: number) {}
+}
+
 // in construction
 export class DeleteItemAction {
   static readonly type = '[TODO page] Delete item';

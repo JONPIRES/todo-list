@@ -6,6 +6,7 @@ import {
   ToggleItemAction,
   DeleteItemAction,
   EditItemAction,
+  EditOnAction,
 } from './todo-actions';
 
 export interface TodoStateModel {
@@ -32,6 +33,7 @@ export class TodoState {
     const todoItem: TodoModel = {
       id: Math.floor(Math.random() * 1000),
       isDone: false,
+      editOn: false,
       title: name,
     };
     ctx.setState({
@@ -50,6 +52,23 @@ export class TodoState {
         return {
           ...item,
           isDone: !item.isDone,
+        };
+      }
+      return item;
+    });
+    ctx.setState({
+      items: [...newTodoItems],
+    });
+  }
+  @Action(EditOnAction)
+  editOn(ctx: StateContext<TodoStateModel>, action: EditOnAction) {
+    const state = ctx.getState();
+
+    const newTodoItems = state.items.map((item) => {
+      if (item.id === action.id) {
+        return {
+          ...item,
+          editOn: !item.editOn,
         };
       }
       return item;

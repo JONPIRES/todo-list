@@ -5,6 +5,7 @@ import { TodoModel } from '../todo/todo';
 import {
   AddItemAction,
   DeleteItemAction,
+  EditOnAction,
   ToggleItemAction,
 } from '../todo/todo-actions';
 import { TodoSelectors } from '../todo/todo-selectors';
@@ -17,12 +18,12 @@ import { TodoSelectors } from '../todo/todo-selectors';
 export class TodoListComponent {
   @Select(TodoSelectors.todoItems) todoItems$!: Observable<TodoModel[]>;
 
-  editOn = false;
   newItemName!: string;
   items: TodoModel[] = [
     ...new Array(10).map((_, index) => ({
       id: index + 1,
       isDone: false,
+      editOn: false,
       title: `Todo ${index + 1}`,
     })),
   ];
@@ -44,5 +45,9 @@ export class TodoListComponent {
 
   deleteItem(todoItem: TodoModel) {
     this.store.dispatch(new DeleteItemAction(todoItem.id));
+  }
+
+  toggleEdit(todoItem: TodoModel) {
+    this.store.dispatch(new EditOnAction(todoItem.id));
   }
 }
