@@ -1,7 +1,6 @@
-.is-done {
-  background-color: rgb(250, 14, 14);
+.main-page {
+  background-color: rgb(102, 136, 134);
 }
-
-li {
-  list-style-type: none;
+input[type="checkbox"] {
+  accent-color: #d1033d;
 }
