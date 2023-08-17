@@ -1,0 +1,26 @@
+<h1>Todo List</h1>
+<div>
+  <input type="text" [(ngModel)]="newItemName" />
+  <button (click)="addItem()">Add</button>
+</div>
+
+<!-- Items -->
+
+<ul class="list">
+  <li
+    *ngFor="let item of todoItems$ | async; trackBy: trackById"
+    [class.is-done]="item.isDone"
+  >
+    <div class="flex items-center">
+      <input
+        type="checkbox"
+        [checked]="item.isDone"
+        (change)="toggleItem(item)"
+      />
+      <span>{{ item.title }}</span>
+      <!-- Replace 'title' with the actual property you want to display -->
+    </div>
+  </li>
+</ul>
+
+{{ todoItems$ | async | json }}
