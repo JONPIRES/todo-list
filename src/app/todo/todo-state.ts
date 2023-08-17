@@ -37,5 +37,20 @@ export class TodoState {
   }
 
   @Action(ToggleItemAction)
-  toggleItem() {}
+  toggleItem(ctx: StateContext<TodoStateModel>, action: ToggleItemAction) {
+    const state = ctx.getState();
+
+    const newTodoItems = state.items.map((item) => {
+      if (item.id === action.id) {
+        return {
+          ...item,
+          isDone: !item.isDone,
+        };
+      }
+      return item;
+    });
+    ctx.setState({
+      items: [...newTodoItems],
+    });
+  }
 }

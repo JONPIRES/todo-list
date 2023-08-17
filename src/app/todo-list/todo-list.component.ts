@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { TodoModel } from '../todo/todo';
-import { AddItemAction } from '../todo/todo-actions';
+import { AddItemAction, ToggleItemAction } from '../todo/todo-actions';
 import { TodoSelectors } from '../todo/todo-selectors';
 
 @Component({
@@ -28,19 +28,12 @@ export class TodoListComponent {
   }
 
   toggleItem(todoItem: TodoModel) {
-    const foundTodo = this.items.find((it) => todoItem.id === it.id);
-    console.log(foundTodo);
-    if (foundTodo) {
-      foundTodo.isDone = !foundTodo.isDone;
-    }
+    this.store.dispatch(new ToggleItemAction(todoItem.id));
   }
 
   addItem() {
     this.store.dispatch(new AddItemAction(this.newItemName));
 
-    if (!this.newItemName) {
-      return;
-    }
     this.newItemName = '';
   }
 }
