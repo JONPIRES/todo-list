@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { TodoModel } from '../todo/todo';
-import { AddItemAction, ToggleItemAction } from '../todo/todo-actions';
+import {
+  AddItemAction,
+  DeleteItemAction,
+  ToggleItemAction,
+} from '../todo/todo-actions';
 import { TodoSelectors } from '../todo/todo-selectors';
 
 @Component({
@@ -13,6 +17,7 @@ import { TodoSelectors } from '../todo/todo-selectors';
 export class TodoListComponent {
   @Select(TodoSelectors.todoItems) todoItems$!: Observable<TodoModel[]>;
 
+  editOn = false;
   newItemName!: string;
   items: TodoModel[] = [
     ...new Array(10).map((_, index) => ({
@@ -35,5 +40,9 @@ export class TodoListComponent {
     this.store.dispatch(new AddItemAction(this.newItemName));
 
     this.newItemName = '';
+  }
+
+  deleteItem(todoItem: TodoModel) {
+    this.store.dispatch(new DeleteItemAction(todoItem.id));
   }
 }

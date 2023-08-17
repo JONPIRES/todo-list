@@ -18,9 +18,8 @@
         (change)="toggleItem(item)"
       />
       <span>{{ item.title }}</span>
+      <button (click)="deleteItem(item)">Remove</button>
       <!-- Replace 'title' with the actual property you want to display -->
     </div>
   </li>
 </ul>
-
-{{ todoItems$ | async | json }}
