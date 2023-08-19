@@ -49,7 +49,6 @@ export class TodoState {
           items: [...state.items, todoItem],
         });
         lastId += 1;
-        console.log(ctx.getState());
       })
     );
   }
