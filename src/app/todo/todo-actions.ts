@@ -1,3 +1,5 @@
+import { TodoModel } from './todo';
+
 export class AddItemAction {
   static readonly type = '[TODO page] add item';
   constructor(public name: string) {}
@@ -19,4 +21,12 @@ export class DeleteItemAction {
 export class EditItemAction {
   static readonly type = '[TODO page] Edit item';
   constructor(public id: number, public name: string) {}
+}
+export class UpdateTodoItemsAction {
+  static readonly type = '[TODO page] update order';
+  constructor(
+    public old: number,
+    public current: number,
+    public itemId: number
+  ) {}
 }

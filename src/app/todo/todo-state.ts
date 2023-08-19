@@ -7,9 +7,11 @@ import {
   DeleteItemAction,
   EditItemAction,
   EditOnAction,
+  UpdateTodoItemsAction,
 } from './todo-actions';
 import { TodoService } from '../services';
 import { tap } from 'rxjs/operators';
+import { updateItem } from '@ngxs/store/operators';
 
 export interface TodoStateModel {
   items: TodoModel[];
@@ -124,6 +126,28 @@ export class TodoState {
         });
         ctx.setState({
           items: [...newTodoItems],
+        });
+      })
+    );
+  }
+
+  @Action(UpdateTodoItemsAction)
+  updateOrder(
+    ctx: StateContext<TodoStateModel>,
+    action: UpdateTodoItemsAction
+  ) {
+    const { old, current, itemId } = action;
+
+    return this.todoService.updateIndex(itemId, action).pipe(
+      tap((result) => {
+        const state = ctx.getState();
+        let updatedItems = [...state.items];
+        const [movedItem] = updatedItems.splice(old, 1);
+        updatedItems.splice(current, 0, movedItem);
+
+        ctx.setState({
+          ...state,
+          items: updatedItems,
         });
       })
     );

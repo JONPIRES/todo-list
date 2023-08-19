@@ -18,12 +18,14 @@
     </button>
   </div>
 
-  <ul class="mt-4">
+  <ul class="mt-4" cdkDropList (cdkDropListDropped)="drop($event)">
     <li
       *ngFor="let item of todoItems$ | async; trackBy: trackById"
+      cdkDrag
       class="flex items-center m-2  p-2 border-b border-gray-300 rounded-md  {{
         item.isDone ? 'bg-rose-100' : 'bg-sky-100'
       }}"
+      [attr.id]="item.id"
     >
       <div class="flex items-center w-full">
         <input

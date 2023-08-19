@@ -25,4 +25,10 @@ export class TodoService {
       payload
     );
   }
+  updateIndex(id: number, payload: {}) {
+    return this.http.put<TodoModel>(
+      'https://jsonplaceholder.typicode.com/todos/' + id,
+      payload
+    );
+  }
 }
